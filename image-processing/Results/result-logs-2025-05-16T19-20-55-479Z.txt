@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "//data/transformations/algorithm", line 41, in <module>
+    filtered_img = apply_filters(image_url=image_url, filter="unsharp")
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "//data/transformations/algorithm", line 30, in apply_filters
+    radius = kwargs.get("radius", 2)
+             ^^^^^^
+NameError: name 'kwargs' is not defined

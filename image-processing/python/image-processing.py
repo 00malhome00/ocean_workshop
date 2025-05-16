@@ -1,6 +1,8 @@
 import requests
 from io import BytesIO
 from PIL import Image, ImageFilter
+from PIL import ImageOps
+
 
 image_url = "https://raw.githubusercontent.com/mikolalysenko/lena/master/lena.png"
 
@@ -9,24 +11,26 @@ def apply_filters(image_url, filter):
     if not filter:
         print("Filter is not provided.")
         return
+    
     response = requests.get(image_url)
 
     if response.status_code == 200:
-        img = Image.open(BytesIO(response.content))
+        img = Image.open(BytesIO(response.content)).convert("RGB")
+    #    img = ImageOps.autocontrast(img, cutoff=2) 
     else:
         print(f"Failed to fetch image: {response.status_code}")
         print(response.text[:500])
+    
     filtered_img = None
     # Apply filter
     if filter == "blur":
-        blurred_img = img.filter(ImageFilter.GaussianBlur(radius=5))
+        blurred_img = img.filter(ImageFilter.GaussianBlur(radius=2))
         filtered_img = blurred_img
     elif filter == "grayscale":
-        grayscale_img = img.convert("L")
-        filtered_img = grayscale_img
+      #  grayscale_img = img.convert("L")
+        filtered_img = img.convert("L")
     elif filter == "unsharp":
-        unsharp_img = img.filter(ImageFilter.UnsharpMask(radius=5))
-        filtered_img = unsharp_img
+        filtered_img = img.filter(ImageFilter.UnsharpMask(radius=2, percent=80, threshold=10))
     else:
         print("Unknown filter.")
         return
@@ -35,6 +39,8 @@ def apply_filters(image_url, filter):
 
 if __name__ == "__main__":
     filtered_img = apply_filters(image_url=image_url, filter="unsharp")
+     # Slight tone remapping
     filename = "/data/outputs/filtered_image.png"
-    filtered_img.save(filename)
+    filtered_img.save(filename, format="PNG", quality=95, optimize=True)
+    
     print(f"Filters applied and images saved successfully as {filename}")

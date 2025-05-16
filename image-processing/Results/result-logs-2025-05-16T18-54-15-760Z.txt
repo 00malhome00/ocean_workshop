@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "//data/transformations/algorithm", line 41, in <module>
+    filtered_img = apply_filters(image_url=image_url, filter="unsharp")
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "//data/transformations/algorithm", line 16, in apply_filters
+    img = Image.open(BytesIO(response.content).convert("RGB"))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: '_io.BytesIO' object has no attribute 'convert'

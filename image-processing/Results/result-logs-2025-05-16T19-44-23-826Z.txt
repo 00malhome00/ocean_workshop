@@ -1,0 +1,1 @@
+Filters applied and images saved successfully as /data/outputs/filtered_image.png
